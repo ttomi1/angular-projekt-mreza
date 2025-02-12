@@ -1,0 +1,62 @@
+<div class="full-page">
+  <div class="card p-4 shadow-lg login-card">
+    <h3 class="text-center mb-4">Register</h3>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+      <!-- Username -->
+      <fieldset>
+        <div class="pb-2">
+          <label for="username" class="form-label">Username: </label>
+          <input type="text" class="form-control" id="username" formControlName="username">
+        </div>
+        <div class="text-danger" *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched">
+          Username is required <br>
+          -min 4 characters
+        </div>
+      </fieldset>
+
+      <!-- Email -->
+      <fieldset>
+        <div class="pb-2">
+          <label for="email" class="form-label">Email: </label>
+          <input type="text" class="form-control" id="email" formControlName="email">
+        </div>
+        <div class="text-danger" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+          Valid email required
+        </div>
+      </fieldset>
+
+      <!-- Password -->
+      <fieldset>
+        <div class="pb-2">
+          <label for="password" class="form-label">Password: </label>
+          <input type="password" class="form-control" id="password" formControlName="password">
+        </div>
+        <div class="text-danger" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+          Password is required <br>
+          -min 5 characters
+        </div>
+      </fieldset>
+
+      <!-- Repeat password -->
+      <fieldset>
+        <div class="pb-2">
+          <label for="repeatPassword" class="form-label">Repeat password: </label>
+          <input type="password" class="form-control" id="repeatPassword" formControlName="repeatPassword">
+        </div>
+        <div class="text-danger" *ngIf="loginForm.hasError('passwordMismatch') && loginForm.get('repeatPassword')?.touched">
+          Passwords must be the same
+        </div>
+      </fieldset>
+
+      <!-- Submit Button -->
+      <button type="submit" [disabled]="loginForm.invalid" class="btn btn-primary w-100">Register</button>
+
+      <!-- Register Link -->
+      <p class="mt-3 text-center">
+        Already have an account? <a [routerLink]="['..']">Login here</a>
+      </p>
+
+    </form>
+  </div>
+</div>

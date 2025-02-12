@@ -1,0 +1,16 @@
+.full-page {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #6E8EF4, #A777E3);
+}
+
+.login-card {
+  width: 400px;
+  border-radius: 15px;
+  background: #fff;
+  padding: 20px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+}
