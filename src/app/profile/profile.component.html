@@ -1,0 +1,23 @@
+<div class="container profile-container">
+
+  <div class="row">
+    <div class="col-12">
+      <app-info></app-info>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-4">
+      <app-friends-list></app-friends-list>
+      <div *ngIf="!isOwnProfile">
+        <app-add-friend></app-add-friend>
+      </div>
+    </div>
+
+    <div class="col-sm-8">
+      <app-profile-posts></app-profile-posts>
+    </div>
+
+  </div>
+</div>
+

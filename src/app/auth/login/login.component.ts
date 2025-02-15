@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {FormGroup, FormBuilder, FormControl, Validators} from '@angular/forms';
+import {AuthService} from '../../shared/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,7 @@ export class LoginComponent {
 
   loginForm!: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private auth : AuthService) {}
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -26,5 +27,6 @@ export class LoginComponent {
     } else {
       console.log("Form Invalid");
     }
+    this.auth.login({username: this.loginForm.get('username')?.value, password: this.loginForm.get('password')?.value});
   }
 }

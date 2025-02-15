@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
+import {DataService} from '../../data.service';
 
 @Component({
   selector: 'app-register',
@@ -11,7 +12,7 @@ export class RegisterComponent {
 
   loginForm!: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private dataService : DataService) {}
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -33,5 +34,12 @@ export class RegisterComponent {
     } else {
       console.log("Form Invalid");
     }
+
+    this.dataService.register(this.loginForm.value).subscribe((res) =>{
+      console.log(res);
+      alert('Registration successful!');
+      this.loginForm.reset();
+    });
+
   }
 }
