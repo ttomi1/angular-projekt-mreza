@@ -8,8 +8,10 @@
 
   <div class="row">
     <div class="col-sm-4">
-      <app-friends-list></app-friends-list>
-      <div *ngIf="!isOwnProfile">
+      <div *ngIf = "isOwnProfile">
+        <app-friends-list></app-friends-list>
+      </div>
+      <div *ngIf="isOwnProfile">
         <app-add-friend></app-add-friend>
       </div>
     </div>

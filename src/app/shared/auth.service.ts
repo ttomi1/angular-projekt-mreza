@@ -29,16 +29,16 @@ export class AuthService {
     this.router.navigate(['/login']);
   }
 
-  getUser(): User | null {
-    const storedUser = localStorage.getItem('user');
-
-    if (!storedUser) {
-      this.user = null;
-    } else {
-      this.user = JSON.parse(storedUser);
+  getUser() {
+    if (!this.user) {
+      const userData = localStorage.getItem('user');
+      if (userData) {
+        this.user = JSON.parse(userData);
+      } else {
+        this.user = null;
+      }
     }
-
-    return this.user;
+    return this.user ? { ...this.user } : null;
   }
 
 

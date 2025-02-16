@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -7,7 +8,21 @@ import { Component } from '@angular/core';
   styleUrl: './profile.component.css'
 })
 export class ProfileComponent {
-  isOwnProfile: boolean = true;
+  id : string | null = null;
+  isOwnProfile: boolean = false;
 
+  constructor(private route: ActivatedRoute) {}
+  ngOnInit(): void {
+    this.route.paramMap.subscribe(params => {
+      this.id = params.get('id');
 
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        const currentUser = JSON.parse(storedUser);
+        this.isOwnProfile = this.id == currentUser.id;
+      }
+    });
+    console.log(this.id);
+    console.log((this.isOwnProfile));
+  }
 }

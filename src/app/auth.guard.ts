@@ -9,18 +9,22 @@ import {Observable} from "rxjs";
 })
 export class AuthenticationGuard implements CanActivate {
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {
+  }
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
-    console.log(this.authService.getUser());
 
-    if (this.authService.getUser())
+    const user = this.authService.getUser();
+    console.log('Auth Guard: User:', user);
+
+    if (user) {
       return true;
+    }
 
-    this.router.navigate(['/']);
+    this.router.navigate(['/login']);
     return false;
   }
 }
