@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const mysql = require('mysql2/promise');
 const path = require('path');
+const crypto = require('crypto');
 
 const config = require('./config');
 
@@ -27,7 +28,7 @@ app.use((req, res, next) => {
 
 app.use(morgan('dev'));
 
-const authRouter = require('./app/routes/authenticate')(express,pool);
+const authRouter = require('./app/routes/authenticate')(express,pool, crypto);
 const apiRouter = require('./app/routes/api')(express,pool);
 app.use('/authenticate', authRouter);
 app.use('/api', apiRouter);

@@ -1,4 +1,4 @@
-module.exports=function (express, pool){
+module.exports=function (express, pool, crypto){
 
     let authRouter = express.Router();
 
@@ -28,10 +28,11 @@ module.exports=function (express, pool){
         return res.status(400).json({ message: 'Username or email already exists' });
       }
 
+      let salt = crypto.randomBytes(128).toString('base64');
+      let hash = crypto.pbkdf2Sync(user.password, salt, 10000, 64, 'sha512').toString('hex');
+
       let result = await conn.query(
-        "INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)",
-        [user.username, user.email, user.password]
-      );
+        "INSERT INTO users (username, email, password_hash, salt) VALUES (?, ?, ?, ?)", [user.username, user.email, hash, salt]);
       console.log("Insert Query Result:", result[0].insertId);
 
       conn.release();
@@ -68,10 +69,12 @@ module.exports=function (express, pool){
 
       const logInUser = rows[0];
 
-      if (user.password !== logInUser.password_hash) {
+      let hash = crypto.pbkdf2Sync(user.password, logInUser.salt, 10000, 64, 'sha512').toString('hex');
+      if (hash !== logInUser.password_hash) {
         conn.release();
         return res.status(400).json({ message: 'Incorrect password' });
       }
+
 
       conn.release();
 
