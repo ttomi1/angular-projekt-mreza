@@ -1,0 +1,27 @@
+<form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+
+  <!-- Title -->
+  <fieldset>
+    <div class="pb-2">
+      <label for="title" class="form-label">Title: </label>
+      <input type="text" class="form-control" id="title" formControlName="title">
+    </div>
+    <div class="text-danger" *ngIf="postForm.get('title')?.invalid && postForm.get('title')?.touched">
+      Title is required
+    </div>
+  </fieldset>
+
+  <!-- Content -->
+  <fieldset>
+    <div class="pb-2">
+      <label for="content" class="form-label">Content: </label>
+      <textarea type="text" class="form-control" id="content" formControlName="content" rows="4"></textarea>
+    </div>
+    <div class="text-danger" *ngIf="postForm.get('content')?.invalid && postForm.get('content')?.touched">
+      Content required
+    </div>
+  </fieldset>
+
+  <!-- Submit Button -->
+  <button type="submit" [disabled]="postForm.invalid" class="btn btn-primary w-100">Post!</button>
+</form>

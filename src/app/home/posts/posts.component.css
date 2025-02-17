@@ -1,0 +1,29 @@
+.heart-icon {
+  cursor: pointer;
+  color: #ff0000;
+  transition: color 0.3s;
+}
+
+.heart-icon:hover {
+  color: #ffb3b8;
+}
+
+.heart-icon:active {
+  transform: scale(1.2);
+  color: #ff6666;
+}
+
+.comment-icon{
+  cursor: pointer;
+  color: #66bdff;
+  transition: color 0.3s;
+}
+
+.comment-icon:hover {
+  color: #b6e1fa;
+}
+
+.comment-icon:active {
+  transform: scale(1.2);
+  color: #4bb1ff;
+}

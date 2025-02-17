@@ -7,6 +7,8 @@ import { InfoComponent } from './info/info.component';
 import { PostsComponent } from './profile-posts/posts.component';
 import { FriendsListComponent } from './friends-list/friends-list.component';
 import { AddFriendComponent } from './friends-list/add-friend/add-friend.component';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { AddPostComponent } from './add-post/add-post.component';
 
 
 @NgModule({
@@ -15,11 +17,14 @@ import { AddFriendComponent } from './friends-list/add-friend/add-friend.compone
     InfoComponent,
     PostsComponent,
     FriendsListComponent,
-    AddFriendComponent
+    AddFriendComponent,
+    AddPostComponent
   ],
   imports: [
     CommonModule,
-    ProfileRoutingModule
+    ProfileRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class ProfileModule { }

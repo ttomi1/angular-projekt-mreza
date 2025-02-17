@@ -28,8 +28,9 @@ app.use((req, res, next) => {
 app.use(morgan('dev'));
 
 const authRouter = require('./app/routes/authenticate')(express,pool);
+const apiRouter = require('./app/routes/api')(express,pool);
 app.use('/authenticate', authRouter);
-
+app.use('/api', apiRouter);
 
 app.listen(config.port);
 

@@ -1,8 +1,21 @@
-<div class="container profile-container">
+<div class="container">
 
   <div class="row">
     <div class="col-12">
-      <app-info></app-info>
+      <app-info [id]="id!"></app-info>
+    </div>
+  </div>
+
+
+  <div class="row" *ngIf="isOwnProfile">
+    <div class="col-12">
+      <button class="btn btn-primary my-3" (click)="toggleAddPost()">
+        {{ showAddPost ? 'Cancel' : 'Make a Post' }}
+      </button>
+
+      <div *ngIf="showAddPost" class="w-50">
+        <app-add-post [id]="id!"></app-add-post>
+      </div>
     </div>
   </div>
 
@@ -17,7 +30,7 @@
     </div>
 
     <div class="col-sm-8">
-      <app-profile-posts></app-profile-posts>
+      <app-profile-posts [id]="id!"></app-profile-posts>
     </div>
 
   </div>
