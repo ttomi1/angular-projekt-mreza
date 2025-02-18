@@ -1,0 +1,18 @@
+<div class="chat-container">
+  <div class="chat-header">
+    <h5>Chat</h5>
+  </div>
+
+  <div class="chat-messages">
+    <div *ngFor="let msg of messages" [ngClass]="{'my-message': msg.sender_id === currentUserId, 'their-message': msg.sender_id !== currentUserId}">
+      <strong *ngIf="msg.sender_id !== currentUserId">{{ msg.username }}</strong>
+      <p>{{ msg.message }}</p>
+      <small>{{ msg.created_at | date:'short' }}</small>
+    </div>
+  </div>
+
+  <div class="chat-input">
+    <input type="text" [(ngModel)]="messageText" placeholder="Type a message..." class="form-control">
+    <button class="btn btn-primary" (click)="sendMessage()">Send</button>
+  </div>
+</div>

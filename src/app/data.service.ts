@@ -45,4 +45,20 @@ export class DataService {
   fetchComments(postId : number){
     return this.http.get<any[]>(`${this.apiRoot}/api/comments/${postId}`)
   }
+
+  deletePost(postId: number){
+    return this.http.delete(`${this.apiRoot}/api/users/post/${postId}`);
+  }
+
+  sendMessage(senderId: number, receiverId: string, content: string) {
+    return this.http.post(`${this.apiRoot}/api/messages/send`, {
+      sender_id: senderId,
+      receiver_id: +receiverId,
+      content: content
+    });
+  }
+
+  fetchMessages(user1Id: number, user2Id: string) {
+    return this.http.get(`${this.apiRoot}/api/messages/${user1Id}/${+user2Id}`);
+  }
 }

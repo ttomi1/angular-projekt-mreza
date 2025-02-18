@@ -26,16 +26,16 @@
   </div>
 
   <div class="row">
-    <div class="col-sm-4">
-      <div *ngIf = "isOwnProfile">
-        <app-friends-list></app-friends-list>
-      </div>
-      <div *ngIf="isOwnProfile">
-        <app-add-friend></app-add-friend>
+    <div class="col-sm-4" *ngIf="!isOwnProfile">
+      <button class="btn btn-primary mt-3" (click)="startChat()">Message</button>
+
+      <div *ngIf="chatOpen" class="chat-box">
+        <app-messaging [receiverId]="id!"></app-messaging>
       </div>
     </div>
 
     <div class="col-sm-8">
+      <h2>Posts</h2>
       <app-profile-posts [id]="id!"></app-profile-posts>
     </div>
 

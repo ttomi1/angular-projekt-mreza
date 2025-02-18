@@ -9,6 +9,7 @@ import { FriendsListComponent } from './friends-list/friends-list.component';
 import { AddFriendComponent } from './friends-list/add-friend/add-friend.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { AddPostComponent } from './add-post/add-post.component';
+import { MessagingComponent } from './messaging/messaging.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { AddPostComponent } from './add-post/add-post.component';
     PostsComponent,
     FriendsListComponent,
     AddFriendComponent,
-    AddPostComponent
+    AddPostComponent,
+    MessagingComponent
   ],
   imports: [
     CommonModule,

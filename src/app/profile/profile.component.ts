@@ -11,6 +11,7 @@ export class ProfileComponent {
   id : string | null = null;
   isOwnProfile: boolean = false;
   showAddPost: boolean = false;
+  chatOpen: boolean = false;
   constructor(private route: ActivatedRoute) {}
   ngOnInit(): void {
 
@@ -29,5 +30,9 @@ export class ProfileComponent {
 
   toggleAddPost() {
     this.showAddPost = !this.showAddPost;
+  }
+
+  startChat() {
+    this.chatOpen = !this.chatOpen;
   }
 }

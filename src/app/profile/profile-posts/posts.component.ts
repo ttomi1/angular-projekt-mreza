@@ -44,10 +44,19 @@ export class PostsComponent {
   postComment(postId: number) {
     if (!this.commentText[postId]) return;
 
-    this.dataService.addComment(postId, this.id, this.commentText[postId]).subscribe((res) => {
+    this.dataService.addComment(postId, this.myId, this.commentText[postId]).subscribe((res: any) => {
       console.log("Comment posted", res);
+
+      this.comments[postId] = [...(this.comments[postId] || []), res.comment];
+
       this.commentText[postId] = "";
       this.commentBox[postId] = false;
+
+      const postIndex = this.posts.findIndex((post: { id: number }) => post.id === postId);
+      if (postIndex !== -1) {
+        this.posts[postIndex].comment_count++;
+      }
+
     });
   }
 
@@ -60,5 +69,12 @@ export class PostsComponent {
         this.commentsVisible[postId] = true;
       });
     }
+  }
+
+  deletePost(postId: number) {
+    this.dataService.deletePost(postId).subscribe(res =>{
+      console.log(res);
+      this.posts = this.posts.filter((post: { id: number }) => post.id !== postId);
+    });
   }
 }

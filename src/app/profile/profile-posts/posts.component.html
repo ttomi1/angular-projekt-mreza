@@ -4,10 +4,10 @@
       <div *ngFor="let post of posts" class="card shadow-sm mb-4">
         <div class="card-body">
 
-          <!-- Post Title -->
+          <!-- Post title -->
           <h5 class="card-title">{{ post.title }}</h5>
 
-          <!-- Post Username and Time (Now Clickable) -->
+          <!-- Post username and time -->
           <h6 class="card-subtitle mb-2 text-muted">
             Posted by
             <a [routerLink]="['/profile', post.user_id]" class="text-decoration-none fw-bold">
@@ -16,18 +16,20 @@
             <span class="text-muted"> • {{ post.created_at | date:'dd.MM.yyyy HH:mm' }}</span>
           </h6>
 
-          <!-- Post Content -->
+          <!-- Post content -->
           <p class="card-text">{{ post.content }}</p>
 
-          <!-- Post Actions -->
+          <!-- Post actions -->
           <div class="d-flex align-items-center gap-3">
             <i class="fa-solid fa-heart fa-2xl heart-icon" (click)="like(post.id)"></i>
             <div class="d-inline">{{ post.like_count }}</div>
             <i class="fa-solid fa-comment fa-2xl comment-icon" (click)="getComments(post.id)"></i>
             <div class="d-inline">{{ post.comment_count }}</div>
             <button class="btn btn-outline-secondary btn-sm" (click)="toggleCommentBox(post.id)">Make a comment</button>
+            <button *ngIf="myId == post.user_id" class="btn btn-outline-secondary btn-sm" (click)="deletePost(post.id)">Delete the post</button>
           </div>
 
+          <!-- Post comments -->
           <div *ngIf="commentBox[post.id]" class="mt-3">
             <input type="text" [(ngModel)]="commentText[post.id]" class="form-control mb-2" placeholder="Write a comment...">
             <div class="d-flex gap-2">
@@ -40,7 +42,7 @@
             <div *ngIf="(comments[post.id] || []).length > 0;">
               <div *ngFor="let comment of comments[post.id] || []" class="mb-2">
                 <strong>{{ comment.username }}</strong>: {{ comment.content }}
-                <div class="text-muted">Posted at: {{ comment.created_at | date:'dd.MM.yyyy HH:mm' }}</div>
+                <div class="text-muted">Commented on: {{ comment.created_at | date:'dd.MM.yyyy HH:mm' }}</div>
               </div>
             </div>
           </div>

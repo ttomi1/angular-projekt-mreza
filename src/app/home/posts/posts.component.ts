@@ -62,4 +62,11 @@ export class PostsComponent {
       });
     }
   }
+
+  deletePost(postId: number) {
+    this.dataService.deletePost(postId).subscribe(res =>{
+      console.log(res);
+      this.posts = this.posts.filter((post: { id: number }) => post.id !== postId);
+    });
+  }
 }

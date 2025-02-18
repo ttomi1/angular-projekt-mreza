@@ -29,6 +29,17 @@ module.exports=function(express,pool) {
       console.log("Error fetching posts", e);
       res.json({status: "NOT OK", message: "Error with get post"});
     }
+  }).delete(async function(req, res){
+    try{
+      let conn = await pool.getConnection();
+      let q = await conn.query('DELETE FROM posts WHERE id = ?', req.params.id);
+      conn.release();
+      res.json({status: "OK", message: "Post deleted"});
+    }
+    catch (e) {
+      console.log("Error deleting post", e);
+      res.json({status: "NOT OK", message: "Error with deleting post"});
+    }
   });
 
 
@@ -116,12 +127,18 @@ module.exports=function(express,pool) {
         return res.status(400).json({ status: "NOT OK", message: "Comment cannot be empty" });
       }
 
-      await conn.query('INSERT INTO comments (post_id, user_id, content) VALUES (?, ?, ?)', [postId, userId, content]);
+      [q] = await conn.query('INSERT INTO comments (post_id, user_id, content) VALUES (?, ?, ?)', [postId, userId, content]);
+
+      let [comment] = await conn.query('SELECT comments.id, comments.post_id, comments.user_id, comments.content, comments.created_at, users.username' +
+        ' FROM comments' +
+        ' JOIN users ON comments.user_id = users.id' +
+        ' WHERE comments.id = ? ', [q.insertId]);
+
       conn.release();
-      res.json({ status: "OK", message: "Comment added successfully!" });
+      res.json({ status: "OK", message: "Comment added successfully!", comment: comment[0]});
     } catch (e) {
       console.error("Error adding comment:", e);
-      res.status(500).json({ status: "NOT OK", message: "Error adding comment" });
+      res.status(500).json({ status: "NOT OK", message: "Error adding comment"});
     }
   }).get(async function(req, res){
     try{
@@ -136,6 +153,44 @@ module.exports=function(express,pool) {
     catch (e) {
       console.log("Error fetching comments", e);
       res.status(500).json({status: "NOT OK", message: "Error fetching comments"});
+    }
+  });
+
+  apiRouter.route('/messages/send').post(async function(req, res) {
+    try {
+      let conn = await pool.getConnection();
+      const { sender_id, receiver_id, content } = req.body;
+
+      if (!sender_id || !receiver_id || !content) {
+        return res.status(400).json({ message: "All fields are required." });
+      }
+
+      await conn.query("INSERT INTO messages (sender_id, receiver_id, message) VALUES (?, ?, ?)", [sender_id, receiver_id, content]);
+
+      conn.release();
+      res.status(201).json({ message: "Message sent!" });
+
+    } catch (e) {
+      console.error("Error sending message:", e);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
+  apiRouter.get('/messages/:user1_id/:user2_id', async function(req, res) {
+    try {
+      let conn = await pool.getConnection();
+      const { user1_id, user2_id } = req.params;
+
+      let [messages] = await conn.query(' SELECT * FROM messages WHERE (sender_id = ? AND receiver_id = ?) ' +
+        'OR (sender_id = ? AND receiver_id = ?) ' +
+        'ORDER BY created_at ASC', [user1_id, user2_id, user2_id, user1_id]);
+
+      conn.release();
+      res.json(messages);
+
+    } catch (e) {
+      console.error("Error fetching messages:", e);
+      res.status(500).json({ message: "Internal server error" });
     }
   });
 
